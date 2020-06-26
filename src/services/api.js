@@ -1,12 +1,12 @@
 import axios from 'axios';
-import {getToken} from './auth';
+import {store} from '../store';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:3333',
+  baseURL: `${process.env.REACT_APP_URL_API}/v1/api`,
 });
 
 api.interceptors.request.use(async (config) => {
-  const token = getToken();
+  const token = store.getState().auth.token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
