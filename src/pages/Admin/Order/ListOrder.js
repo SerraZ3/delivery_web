@@ -1,4 +1,4 @@
-import React, {useState, useEffect, forwardRef} from 'react';
+import React, {useState, useEffect, forwardRef, createRef} from 'react';
 import MaterialTable from 'material-table';
 import {
   AlbumOutlined as AlbumOutlinedIcon,
@@ -11,43 +11,18 @@ import ModalOrder from './ModalOrder';
 
 export default function MaterialTableDemo() {
   const [open, setOpen] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
   const [orderShow, setOrderShow] = useState(null);
-  const handleClose = () => {
-    setOpen(false);
+  const tableRef = createRef();
+
+  const handleClose = (update = false) => {
+    update ? setOpenUpdate(false) : setOpen(false);
+    tableRef.current.onQueryChange();
   };
-  const handleOpen = (row) => {
+  const handleOpen = (row, update = false) => {
     setOrderShow(row);
-    setOpen(true);
+    update ? setOpenUpdate(true) : setOpen(true);
   };
-  useEffect(() => {}, []);
-  const columnsConfig = [
-    {
-      title: 'ID',
-      width: 80,
-      field: 'order_id',
-      type: 'numeric',
-    },
-    {title: 'E-mail', field: 'user_email'},
-    {title: 'Nome', field: 'user_name'},
-    {
-      title: 'Status',
-      field: 'order_status_slug',
-      render: ({order_status_color, order_status_name}) => (
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="center"
-          spacing={2}>
-          <Grid item>
-            <AlbumOutlinedIcon style={{color: order_status_color}} />
-          </Grid>
-          <Grid item>{order_status_name}</Grid>
-        </Grid>
-      ),
-    },
-    {title: 'Criado em', field: 'order_created_at'},
-  ];
 
   const getOrders = async (query) => {
     let result = await apiGetOrders(
@@ -72,6 +47,7 @@ export default function MaterialTableDemo() {
     <>
       <MaterialTable
         title="Meus Pedidos"
+        tableRef={tableRef}
         columns={columnsConfig}
         data={(query) =>
           new Promise(async (resolve, reject) => {
@@ -89,61 +65,18 @@ export default function MaterialTableDemo() {
             <FilterList style={{fontSize: 12}} {...props} ref={ref} />
           )),
         }}
-        localization={{
-          body: {
-            deleteTooltip: 'Deletar',
-            addTooltip: 'Adicionar',
-            editTooltip: 'Editar',
-            editRow: {
-              deleteText: 'Deseja realmente deletar esse item?',
-              cancelTooltip: 'Cancelar',
-              saveTooltip: 'Confirmar',
-            },
-          },
-          pagination: {
-            labelRowsSelect: 'Linhas',
-            firstTooltip: 'Primeira página',
-            firstAriaLabel: 'Primeira página',
-            previousAriaLabel: 'Página anterior',
-            previousTooltip: 'Página anterior',
-            nextAriaLabel: 'Próxima página',
-            nextTooltip: 'Próxima página',
-            lastAriaLabel: 'Última página',
-            lastTooltip: 'Última página',
-            labelDisplayedRows: '{from}-{to} de {count}',
-            rowsPerPageOptions: [5, 10, 20, 30],
-          },
-          toolbar: {
-            searchTooltip: 'Pesquisar',
-            searchAriaLabel: 'Pesquisar',
-            searchPlaceholder: 'Pesquisar',
-          },
-        }}
-        editable={{
-          onRowAdd: (newData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                // setState((prevState) => {
-                //   const data = [...prevState.data];
-                //   data.push(newData);
-                //   return {...prevState, data};
-                // });
-              }, 600);
-            }),
-        }}
-        onRowClick={(event, rowData) => handleOpen(rowData)}
+        localization={locationConfig}
+        onRowClick={(e, rowData) => handleOpen(rowData)}
         actions={[
           {
             icon: 'visibility',
             tooltip: 'Visualizar pedido',
-            onClick: (event, rowData) => handleOpen(rowData),
+            onClick: (e, rowData) => handleOpen(rowData),
           },
           {
             icon: 'build_circle',
             tooltip: 'Alterar pedido',
-            onClick: (event, rowData) =>
-              alert('You want to delete ' + rowData.name),
+            onClick: (e, rowData) => handleOpen(rowData, true),
           },
         ]}
         options={{
@@ -155,12 +88,77 @@ export default function MaterialTableDemo() {
           Pagination: (props) => (
             <TablePagination
               {...props}
+              count={parseInt(props.count)}
               rowsPerPageOptions={[5, 10, 30, 50, 100]}
             />
           ),
         }}
       />
       <ModalOrder open={open} handleClose={handleClose} data={orderShow} />
+      <ModalOrder
+        open={openUpdate}
+        handleClose={() => handleClose(true)}
+        data={orderShow}
+        update
+      />
     </>
   );
 }
+const locationConfig = {
+  body: {
+    deleteTooltip: 'Deletar',
+    addTooltip: 'Adicionar',
+    editTooltip: 'Editar',
+    editRow: {
+      deleteText: 'Deseja realmente deletar esse item?',
+      cancelTooltip: 'Cancelar',
+      saveTooltip: 'Confirmar',
+    },
+  },
+  pagination: {
+    labelRowsSelect: 'Linhas',
+    firstTooltip: 'Primeira página',
+    firstAriaLabel: 'Primeira página',
+    previousAriaLabel: 'Página anterior',
+    previousTooltip: 'Página anterior',
+    nextAriaLabel: 'Próxima página',
+    nextTooltip: 'Próxima página',
+    lastAriaLabel: 'Última página',
+    lastTooltip: 'Última página',
+    labelDisplayedRows: '{from}-{to} de {count}',
+    rowsPerPageOptions: [5, 10, 20, 30],
+  },
+  toolbar: {
+    searchTooltip: 'Pesquisar',
+    searchAriaLabel: 'Pesquisar',
+    searchPlaceholder: 'Pesquisar',
+  },
+};
+const columnsConfig = [
+  {
+    title: 'ID',
+    width: 80,
+    field: 'order_id',
+    type: 'numeric',
+  },
+  {title: 'E-mail', field: 'user_email'},
+  {title: 'Nome', field: 'user_name'},
+  {
+    title: 'Status',
+    field: 'order_status_slug',
+    render: ({order_status_color, order_status_name}) => (
+      <Grid
+        container
+        direction="row"
+        justify="flex-start"
+        alignItems="center"
+        spacing={2}>
+        <Grid item>
+          <AlbumOutlinedIcon style={{color: order_status_color}} />
+        </Grid>
+        <Grid item>{order_status_name}</Grid>
+      </Grid>
+    ),
+  },
+  {title: 'Criado em', field: 'order_created_at'},
+];
