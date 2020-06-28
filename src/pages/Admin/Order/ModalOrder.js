@@ -47,7 +47,7 @@ const CloseButton = ({setOrder, handleClose}) => (
   </Button>
 );
 
-function ModalOrder({open, handleClose, data, update}) {
+function ModalOrder({open, handleClose, data = null, update}) {
   const [order, setOrder] = useState(null);
   const [error, setError] = useState(null);
   const [orderStatus, setOrderStatus] = useState([]);
@@ -56,10 +56,7 @@ function ModalOrder({open, handleClose, data, update}) {
   const loadOrderStatus = selectOpen && orderStatus.length === 0;
 
   const classes = useStyles();
-  // Pega pedido quando o data é atualizado
-  useEffect(() => {
-    if (data) getOrder();
-  }, [data]);
+
   // Pega pedido quando o data é atualizado
   useEffect(() => {
     let active = true;
@@ -92,18 +89,17 @@ function ModalOrder({open, handleClose, data, update}) {
     setSelectedOrderStatus(null);
   };
 
-  const getOrder = async () => {
-    try {
-      let response = await showOrder(data.order_id);
-      setOrder(response);
-    } catch (error) {
-      setError('Erro ao carregar pedido, tente novamente!');
-    }
-  };
-
   useEffect(() => {
-    if (open && !order) getOrder();
-  }, [open]);
+    const getOrder = async () => {
+      try {
+        let response = await showOrder(data.order_id);
+        setOrder(response);
+      } catch (error) {
+        setError('Erro ao carregar pedido, tente novamente!');
+      }
+    };
+    if (data) if (open && !order) getOrder();
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <Modal
       open={open}

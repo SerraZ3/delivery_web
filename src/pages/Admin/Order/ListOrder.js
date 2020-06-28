@@ -1,4 +1,4 @@
-import React, {useState, useEffect, forwardRef, createRef} from 'react';
+import React, {useState, forwardRef, createRef} from 'react';
 import MaterialTable from 'material-table';
 import {
   AlbumOutlined as AlbumOutlinedIcon,
@@ -34,6 +34,7 @@ export default function MaterialTableDemo() {
     );
     result.data.map((value) => {
       value.order_created_at = convertDate(value.order_created_at);
+      return true;
     });
 
     return {

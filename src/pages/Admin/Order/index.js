@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '../../../components/Header';
 import {Body} from './styles';
 import ListOrder from './ListOrder';
-import {Grid, Paper} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 
 function Order() {
   return (
