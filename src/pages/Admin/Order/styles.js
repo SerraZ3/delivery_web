@@ -1,5 +1,6 @@
+import React from 'react';
 import styled from 'styled-components';
-import {TextField} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 
 export const Body = styled.div`
   margin-left: 80px;
@@ -8,11 +9,6 @@ export const Body = styled.div`
   flex-grow: 1;
 `;
 
-export const TextFieldDesabled = styled(TextField).attrs({
-  id: 'outlined-disabled',
-  variant: 'outlined',
-  disabled: true,
-  margin: 'dense',
-})`
-  border-color: red;
-`;
+export const GridContainer = (props) => (
+  <Grid {...props} container style={{margin: 0, padding: 0}} spacing={2} />
+);
