@@ -22,3 +22,15 @@ ou
 ```bash
 yarn install
 ```
+
+### Rodar projeto
+
+```bash
+npm start
+```
+
+ou
+
+```bash
+yarn start
+```
