@@ -4,6 +4,8 @@ import {useSelector} from 'react-redux';
 
 import AdminLogin from '../../pages/Admin/Login';
 import AdminOrder from '../../pages/Admin/Order';
+import AdminProduct from '../../pages/Admin/Product';
+import AdminSignUp from '../../pages/Admin/SignUp';
 
 import getRolePermission from '../../services/getRolePermission';
 
@@ -41,8 +43,13 @@ const Routes = (props) => {
       <div>
         <Switch>
           <Route
-            path={`${path}/config`}
-            component={() => <h1>Configurações do Admin</h1>}
+            path={[
+              `${path}/produtos`,
+              `${path}/categorias`,
+              `${path}/produto`,
+              `${path}/categoria`,
+            ]}
+            component={AdminProduct}
           />
           <Route
             path={[path, `${path}/pedidos`, `${path}/pedido`]}
@@ -57,7 +64,7 @@ const Routes = (props) => {
       </div>
     ) : (
       <div>
-        <Route path={`${path}/cadastro`} component={() => <h1>Cadastro</h1>} />
+        <Route path={`/cadastro`} component={AdminSignUp} />
         <Route exact path={[path, `${path}/login`]} component={AdminLogin} />
       </div>
     )

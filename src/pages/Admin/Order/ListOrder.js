@@ -9,7 +9,7 @@ import apiGetOrders from '../../../services/getOrders';
 import {convertDate} from '../../../helpers';
 import ModalOrder from './ModalOrder';
 
-export default function MaterialTableDemo() {
+export default function ListOrder() {
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [orderShow, setOrderShow] = useState(null);
@@ -84,15 +84,7 @@ export default function MaterialTableDemo() {
           actionsColumnIndex: -1,
           detailPanelColumnAlignment: 'right',
           sorting: true,
-        }}
-        components={{
-          Pagination: (props) => (
-            <TablePagination
-              {...props}
-              count={parseInt(props.count)}
-              rowsPerPageOptions={[5, 10, 30, 50, 100]}
-            />
-          ),
+          pageSizeOptions: [5, 10, 30, 50, 100],
         }}
       />
       <ModalOrder open={open} handleClose={handleClose} data={orderShow} />

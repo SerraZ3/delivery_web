@@ -8,8 +8,12 @@ const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path={['/estabelecimento', '/admin']} component={AdminRoutes} />
-        <Route path={['/', '/client']} component={ClientRoutes} />
+        {console.log('asds')}
+        <Route
+          path={['/estabelecimento', '/admin', '/']}
+          component={AdminRoutes}
+        />
+        {/* <Route path={['/client']} component={ClientRoutes} /> */}
         <Route path="*" component={() => <h1>Page not found</h1>} />
       </Switch>
     </BrowserRouter>

@@ -58,3 +58,35 @@ export const getPaymentType = (data) => {
       return 'Error';
   }
 };
+
+export const locationConfig = {
+  body: {
+    deleteTooltip: 'Deletar',
+    addTooltip: 'Adicionar',
+    editTooltip: 'Editar',
+    editRow: {
+      deleteText: 'Deseja realmente deletar esse item?',
+      cancelTooltip: 'Cancelar',
+      saveTooltip: 'Confirmar',
+    },
+  },
+  pagination: {
+    labelRowsSelect: 'Linhas',
+    firstTooltip: 'Primeira página',
+    firstAriaLabel: 'Primeira página',
+    previousAriaLabel: 'Página anterior',
+    previousTooltip: 'Página anterior',
+    nextAriaLabel: 'Próxima página',
+    nextTooltip: 'Próxima página',
+    lastAriaLabel: 'Última página',
+    lastTooltip: 'Última página',
+    labelDisplayedRows: '{from}-{to} de {count}',
+    rowsPerPageOptions: [5, 10, 20, 30],
+  },
+  toolbar: {
+    searchTooltip: 'Pesquisar',
+    searchAriaLabel: 'Pesquisar',
+    searchPlaceholder: 'Pesquisar',
+  },
+  header: {actions: 'Ações'},
+};

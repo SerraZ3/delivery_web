@@ -24,65 +24,13 @@ import {
   Send as SendIcon,
 } from '@material-ui/icons';
 import {useDispatch} from 'react-redux';
-
-const drawerWidth = 180;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    backgroundColor: process.env.REACT_APP_PRIMARY_COLOR,
-    [theme.breakpoints.up('sm')]: {
-      minHeight: theme.spacing(3) + 1,
-    },
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(7) + 1,
-    },
-  },
-  title: {
-    flexGrow: 1,
-    marginLeft: 57,
-  },
-}));
+import {useHistory} from 'react-router-dom';
 
 export default function MiniDrawer() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const dispatch = useDispatch();
   function logout() {
@@ -166,25 +114,26 @@ export default function MiniDrawer() {
           justify="center"
           alignItems="flex-start"
           style={{height: '100vh'}}>
-          <ListItem button>
+          <ListItem button onClick={() => history.push('/admin/pedidos')}>
             <ListItemIcon>
               <PlaylistAddCheck />
             </ListItemIcon>
+
             <ListItemText primary={'Pedidos'} />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => history.push('/admin/produtos')}>
             <ListItemIcon>
               <OpenInBrowserIcon />
             </ListItemIcon>
             <ListItemText primary={'Produtos'} />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => history.push('/admin/financeiro')}>
             <ListItemIcon>
               <MonetizationOnIcon />
             </ListItemIcon>
             <ListItemText primary={'Financeiro'} />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => history.push('/admin/entregador')}>
             <ListItemIcon>
               <SendIcon />
             </ListItemIcon>
@@ -207,3 +156,56 @@ export default function MiniDrawer() {
     </div>
   );
 }
+const drawerWidth = 180;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    backgroundColor: process.env.REACT_APP_PRIMARY_COLOR,
+    [theme.breakpoints.up('sm')]: {
+      minHeight: theme.spacing(3) + 1,
+    },
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(7) + 1,
+    },
+  },
+  title: {
+    flexGrow: 1,
+    marginLeft: 57,
+  },
+}));

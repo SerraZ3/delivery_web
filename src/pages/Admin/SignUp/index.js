@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(10),
   },
 }));
-function Login() {
+function SignUp() {
   // Declara uma nova variável de state, que chamaremos de "count"
   const [email, setEmail] = useState('serra.henrique3@gmail.com');
   const [password, setPassword] = useState('henrique123');
@@ -57,49 +57,30 @@ function Login() {
   };
   return (
     <Container>
-      <ContainerBox container justify="center" alignItems="center">
-        <form className="col s10 offset-s1" style={{height: 400}}>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center">
-            <Avatar alt="Remy Sharp" src={image} className={classes.large} />
-            <br></br>
+      <ContainerBox>
+        <form style={{height: 400}}>
+          <Grid container>
+            <Grid item xs={6}>
+              <Input
+                id="outlined-search"
+                label="Senha"
+                type="password"
+                variant="outlined"
+                value={password}
+                onChange={({target: {value}}) => setPassword(value)}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Input
+                id="outlined-search"
+                label="Senha"
+                type="password"
+                variant="outlined"
+                value={password}
+                onChange={({target: {value}}) => setPassword(value)}
+              />
+            </Grid>
           </Grid>
-          <DivInput>
-            <Input
-              id="outlined-search"
-              label="E-mail"
-              type="email"
-              variant="outlined"
-              value={email}
-              onChange={({target: {value}}) => setEmail(value)}
-            />
-          </DivInput>
-          <DivInput>
-            <Input
-              id="outlined-search"
-              label="Senha"
-              type="password"
-              variant="outlined"
-              value={password}
-              onChange={({target: {value}}) => setPassword(value)}
-            />
-          </DivInput>
-          <DivInput>
-            <Button
-              endIcon={<Icon>login</Icon>}
-              onClick={(e) => handleSubmit(e)}
-              variant="outlined">
-              Entrar
-            </Button>
-          </DivInput>
-          <DivInput>
-            <Link to={`/cadastro`} style={{textDecoration: 'blink'}}>
-              <Typography color="primary">Cadastre-se agora</Typography>
-            </Link>
-          </DivInput>
         </form>
       </ContainerBox>
       <LoadingScreen open={loading} />
@@ -107,4 +88,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
